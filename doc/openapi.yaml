@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  description: ""
+  version: "1.0.0"
+  title: "NemamToNaHaku"
+  termsOfService: ""
+paths:
+  /saml/generateRequest:
+    post:
+      tags:
+        - "saml"
+      summary: "Generate SAML request"
+      description: ""
+      operationId: "generateSamlRequest"
+      responses:
+        "200":
+          description: "SAML Request generation successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SamlRequestGenerationResponse"
+        "500":
+          description: "Error occurred during SAML Request generation"
+  /saml/parseResponse:
+    post:
+      tags:
+        - "saml"
+      summary: "Parses and validates SAML Response and return attributes"
+      description: ""
+      operationId: "parseSamlResponse"
+      requestBody:
+        description: "Map (dictionary) with attributes"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SamlResponseParsingRequest"
+      responses:
+        "200":
+          description: "SAML Response parsed and validated successfuly"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SamlResponseParsingResponse"
+        "400":
+          description: "Error occurred, see errorCode and errorMessage"
+components:
+  schemas:
+    ErrorCode:
+      type: string
+      enum:
+        - UNKNOWN
+    SamlRequestGenerationResponse:
+      type: "object"
+      properties:
+        errorCode:
+          $ref: "#/components/schemas/ErrorCode"
+        errorMessage:
+          type: string
+          example: ""
+        base64SamlRequestData:
+          type: string
+          format: byte
+    SamlResponseParsingRequest:
+      type: "object"
+      properties:
+        base64SamlResponseData:
+          type: string
+          format: byte
+    SamlResponseParsingResponse:
+      type: "object"
+      properties:
+        errorCode:
+          $ref: "#/components/schemas/ErrorCode"
+        errorMessage:
+          type: string
+          example: ""
+        samlAttributes:
+          type: object
+          additionalProperties:
+            type: string
+    
