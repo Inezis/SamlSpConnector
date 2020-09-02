@@ -2,7 +2,9 @@ package sk.inezis.saml_sp_connector.util;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AutowireHelper implements ApplicationContextAware {
     private static final AutowireHelper INSTANCE = new AutowireHelper();
     private static ApplicationContext applicationContext;
