@@ -6,6 +6,7 @@ import com.onelogin.saml2.exception.Error;
 import com.onelogin.saml2.settings.Saml2Settings;
 import com.onelogin.saml2.settings.SettingsBuilder;
 import com.onelogin.saml2.util.Util;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class SamlServiceImpl implements SamlService {
     public Map<String, String> parseSamlResponse(byte[] samlResponseBase64) throws SamlValidationException {
         try {
             SamlResponse samlResponse = new SamlResponse(settings, null);
-            samlResponse.loadXmlFromBase64(new String(samlResponseBase64, StandardCharsets.UTF_8));
+            samlResponse.loadXmlFromBase64(Base64.encodeBase64String(samlResponseBase64));
             samlResponse.setDestinationUrl(settings.getSpAssertionConsumerServiceUrl().toString());
             boolean isValid = samlResponse.isValid();
             if (!isValid) {
