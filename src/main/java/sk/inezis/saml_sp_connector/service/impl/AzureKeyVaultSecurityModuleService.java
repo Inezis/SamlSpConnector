@@ -69,6 +69,12 @@ public class AzureKeyVaultSecurityModuleService implements SecurityModuleService
             throw new AzureKeyVaultException("HSM sign failed", e);
         }
     }
+    
+    @Override
+	public byte[] signDigest(byte[] digestToSign, JsonWebKeySignatureAlgorithm algorithm) {
+    	KeyOperationResult keyOperationResult = client.sign(rsaKeyIdentifier, algorithm, digestToSign);
+    	return keyOperationResult.result();
+	}
 
     @Override
     public X509Certificate getSignCertificate() throws AzureKeyVaultException {

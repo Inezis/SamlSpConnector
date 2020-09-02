@@ -11,12 +11,14 @@ import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+
 import sk.inezis.saml_sp_connector.exception.SamlValidationException;
 import sk.inezis.saml_sp_connector.service.SamlService;
 
 import javax.annotation.PostConstruct;
 import javax.xml.xpath.XPathExpressionException;
-import java.nio.charset.StandardCharsets;
+
+import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +74,33 @@ public class SamlServiceImpl implements SamlService {
 
     private String signAuthnRequest(String samlRequest, Saml2Settings settings) throws XPathExpressionException, XMLSecurityException {
         Document samlRequestDoc = Util.loadXML(samlRequest);
-        String signedSamlRequest = Util.addSign(samlRequestDoc, settings.getSPkey(), settings.getSPcert(), settings.getSignatureAlgorithm(), settings.getDigestAlgorithm());
+        PrivateKey privateKey = settings.getSPkey();
+        if(privateKey == null) {
+        	privateKey = new PrivateKeyStub();
+        }
+        String signedSamlRequest = Util.addSign(samlRequestDoc, privateKey, settings.getSPcert(), settings.getSignatureAlgorithm(), settings.getDigestAlgorithm());
         return signedSamlRequest;
+    }
+    
+    public static class PrivateKeyStub implements PrivateKey {
+
+		private static final long serialVersionUID = 6661620287584474446L;
+
+		@Override
+		public String getAlgorithm() {
+			return null;
+		}
+
+		@Override
+		public String getFormat() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public byte[] getEncoded() {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
 }

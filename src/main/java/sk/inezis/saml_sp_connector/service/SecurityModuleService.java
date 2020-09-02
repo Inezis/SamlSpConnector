@@ -14,6 +14,8 @@ public interface SecurityModuleService {
     byte[] encrypt(byte[] rawData);
 
     byte[] sign(byte[] encryptedData, JsonWebKeySignatureAlgorithm algorithm) throws SecurityModuleException;
+    
+    byte[] signDigest(byte[] digestToSign, JsonWebKeySignatureAlgorithm algorithm);
 
     X509Certificate getSignCertificate() throws SecurityModuleException;
 }
