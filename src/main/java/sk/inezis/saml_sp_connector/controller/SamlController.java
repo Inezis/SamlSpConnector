@@ -34,7 +34,7 @@ public class SamlController implements SamlApi {
             response = new SamlRequestGenerationResponse().base64SamlRequestData(samlRequest);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error occured during SAML request generation", e);
+            logger.error("Error occurred during SAML request generation", e);
 
             response = new SamlRequestGenerationResponse().errorCode(ErrorCode.UNKNOWN)
                     .errorMessage("")
@@ -53,7 +53,7 @@ public class SamlController implements SamlApi {
             response = new SamlResponseParsingResponse().samlAttributes(samlAttributes);
             return ResponseEntity.ok(response);
         } catch (SamlValidationException e) {
-            logger.error("Error occured during SAML response parsing", e);
+            logger.error("Error occurred during SAML response parsing", e);
 
             response = new SamlResponseParsingResponse().errorCode(ErrorCode.UNKNOWN)
                     .errorMessage("")
