@@ -1,6 +1,8 @@
 package sk.inezis.saml_sp_connector.exception;
 
 public class SamlValidationException extends Exception {
+    private static final long serialVersionUID = -2510208894413170395L;
+
     public SamlValidationException() {
     }
 

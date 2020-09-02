@@ -1,7 +1,7 @@
 package sk.inezis.saml_sp_connector.exception;
 
 public class AzureKeyVaultException extends SecurityModuleException {
-    private static final long serialVersionUID = -296462606659123819L;
+    private static final long serialVersionUID = 4608480309987108741L;
 
     public AzureKeyVaultException() {
     }

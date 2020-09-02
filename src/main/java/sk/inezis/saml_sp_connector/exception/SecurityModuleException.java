@@ -1,8 +1,7 @@
 package sk.inezis.saml_sp_connector.exception;
 
 public class SecurityModuleException extends Exception {
-
-    private static final long serialVersionUID = 3471871177108425789L;
+    private static final long serialVersionUID = 1317609590049437480L;
 
     public SecurityModuleException() {
     }
