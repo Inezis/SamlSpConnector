@@ -15,12 +15,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-import sk.inezis.saml_sp_connector.service.SecurityModuleService;
-import sk.inezis.saml_sp_connector.util.AutowireHelper;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;

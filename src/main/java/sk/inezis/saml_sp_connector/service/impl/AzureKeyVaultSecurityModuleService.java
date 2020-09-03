@@ -44,7 +44,7 @@ public class AzureKeyVaultSecurityModuleService implements SecurityModuleService
     @PostConstruct
     public void init() throws AzureKeyVaultException {
         client = new KeyVaultClient(new ClientKeyVaultCredentials(applicationId, applicationSecret));
-//        signCertKeyIdentifier = getSignCertificateBundle().keyIdentifier().identifier();
+        signCertKeyIdentifier = getSignCertificateBundle().keyIdentifier().identifier();
     }
 
     @Override
@@ -69,6 +69,12 @@ public class AzureKeyVaultSecurityModuleService implements SecurityModuleService
             throw new AzureKeyVaultException("HSM sign failed", e);
         }
     }
+    
+    @Override
+	public byte[] signDigest(byte[] digestToSign, JsonWebKeySignatureAlgorithm algorithm) {
+    	KeyOperationResult keyOperationResult = client.sign(signCertKeyIdentifier, algorithm, digestToSign);
+    	return keyOperationResult.result();
+	}
 
     @Override
     public byte[] unwrapKey(byte[] data, JsonWebKeyEncryptionAlgorithm algorithm) {
