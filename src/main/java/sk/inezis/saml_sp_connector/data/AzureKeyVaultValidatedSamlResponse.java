@@ -532,20 +532,38 @@ public class AzureKeyVaultValidatedSamlResponse extends SamlResponse {
                 }
 
                 NodeList childrens = nodes.item(i).getChildNodes();
+                boolean isSlovakPlaceCanonicalAttribute = attName.equals("https://minv.sk/eDocAttr/PlaceOfResidenceCanonical") || attName.equals("https://minv.sk/eDocAttr/PlaceOfBirthCanonical"); 
 
                 List<String> attrValues = new ArrayList<String>();
                 for (int j = 0; j < childrens.getLength(); j++) {
                     if ("AttributeValue".equals(childrens.item(j).getLocalName())) {
-                        attrValues.add(childrens.item(j).getTextContent());
+                    	if(isSlovakPlaceCanonicalAttribute) {
+                    		resolveSlovakPlaceCanonicalAttributes(attName, childrens.item(j), attributes);
+                    	} 
+                    	else {
+                    		attrValues.add(childrens.item(j).getTextContent());
+                    	}
                     }
                 }
-                attributes.put(attName, attrValues);
+                if(!isSlovakPlaceCanonicalAttribute) {
+                	attributes.put(attName, attrValues);
+                }
             }
             LOGGER.debug("SAMLResponse has attributes: " + attributes.toString());
         } else {
             LOGGER.debug("SAMLResponse has no attributes");
         }
         return attributes;
+    }
+    
+    public void resolveSlovakPlaceCanonicalAttributes(String attName, Node attributeValueNode, HashMap<String, List<String>> attributes) {
+    	NodeList childrens = attributeValueNode.getFirstChild().getChildNodes();
+    	for (int j = 0; j < childrens.getLength(); j++) {
+    		Node item = childrens.item(j);
+    		List<String> itemValue = new ArrayList<String>();
+    		itemValue.add(item.getTextContent());
+    		attributes.put(attName + "/" + item.getLocalName(), itemValue);
+    	}
     }
 
     /**
