@@ -44,7 +44,7 @@ public class AzureKeyVaultSecurityModuleService implements SecurityModuleService
     @PostConstruct
     public void init() throws AzureKeyVaultException {
         client = new KeyVaultClient(new ClientKeyVaultCredentials(applicationId, applicationSecret));
-        signCertKeyIdentifier = getSignCertificateBundle().keyIdentifier().identifier();
+//        signCertKeyIdentifier = getSignCertificateBundle().keyIdentifier().identifier();
     }
 
     @Override
@@ -75,6 +75,12 @@ public class AzureKeyVaultSecurityModuleService implements SecurityModuleService
     	KeyOperationResult keyOperationResult = client.sign(rsaKeyIdentifier, algorithm, digestToSign);
     	return keyOperationResult.result();
 	}
+
+    @Override
+    public byte[] unwrapKey(byte[] data, JsonWebKeyEncryptionAlgorithm algorithm) {
+        KeyOperationResult keyOperationResult = client.unwrapKey(rsaKeyIdentifier, algorithm, data);
+        return keyOperationResult.result();
+    }
 
     @Override
     public X509Certificate getSignCertificate() throws AzureKeyVaultException {
