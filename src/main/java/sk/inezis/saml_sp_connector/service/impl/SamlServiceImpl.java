@@ -16,11 +16,13 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import sk.inezis.saml_sp_connector.data.AzureKeyVaultValidatedSamlResponse;
 import sk.inezis.saml_sp_connector.exception.SamlValidationException;
+import sk.inezis.saml_sp_connector.resolver.KeyVaultSignCertificateLazyResolver;
 import sk.inezis.saml_sp_connector.service.SamlService;
 
 import javax.annotation.PostConstruct;
 import javax.xml.xpath.XPathExpressionException;
 import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,13 @@ public class SamlServiceImpl implements SamlService {
     @Value("${onelogin.saml.properties.path}")
     private String oneloginSamlPropertiesPath;
 
+    private final KeyVaultSignCertificateLazyResolver keyVaultSignCertificateLazyResolver;
+
     private Saml2Settings settings;
+
+    public SamlServiceImpl(KeyVaultSignCertificateLazyResolver keyVaultSignCertificateLazyResolver) {
+        this.keyVaultSignCertificateLazyResolver = keyVaultSignCertificateLazyResolver;
+    }
 
     @PostConstruct
     private void initialize() throws Exception {
@@ -96,8 +104,13 @@ public class SamlServiceImpl implements SamlService {
         if (privateKey == null) {
             privateKey = new PrivateKeyStub();
         }
-        String signedSamlRequest = Util.addSign(samlRequestDoc, privateKey, settings.getSPcert(), settings.getSignatureAlgorithm(), settings.getDigestAlgorithm());
-        return signedSamlRequest;
+
+        X509Certificate sPcert = settings.getSPcert();
+        if (sPcert == null) {
+            sPcert = keyVaultSignCertificateLazyResolver.resolve();
+        }
+
+        return Util.addSign(samlRequestDoc, privateKey, sPcert, settings.getSignatureAlgorithm(), settings.getDigestAlgorithm());
     }
 
     public static class PrivateKeyStub implements PrivateKey {
