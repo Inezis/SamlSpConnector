@@ -69,17 +69,17 @@
         <!-- HUJQ xmlsec需要首先定义一个xmlsec内部使用的签名算法实现 -->
         <SignatureAlgorithm URI="http://www.w3.org/2000/09/xmldsig#sign-test"
                             JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureTest" />
-        s
+        
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#rsa-md5"
                             JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSAMD5" />
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#rsa-ripemd160"
                             JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSARIPEMD160" />
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
-                            JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA256" />
+                            JAVACLASS="sk.inezis.saml_sp_connector.algorithms.KeyVaultSignatureBaseRSA$KeyVaultSignatureRSASHA256" />
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#rsa-sha384"
-                            JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA384" />
+                            JAVACLASS="sk.inezis.saml_sp_connector.algorithms.KeyVaultSignatureBaseRSA$KeyVaultSignatureRSASHA384" />
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#rsa-sha512"
-                            JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureBaseRSA$SignatureRSASHA512" />
+                            JAVACLASS="sk.inezis.saml_sp_connector.algorithms.KeyVaultSignatureBaseRSA$KeyVaultSignatureRSASHA512" />
         <SignatureAlgorithm URI="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1"
                             JAVACLASS="org.apache.xml.security.algorithms.implementations.SignatureECDSA$SignatureECDSASHA1" />
 
