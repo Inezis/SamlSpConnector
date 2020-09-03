@@ -11,12 +11,12 @@ import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+import sk.inezis.saml_sp_connector.data.AzureKeyVaultValidatedSamlResponse;
 import sk.inezis.saml_sp_connector.exception.SamlValidationException;
 import sk.inezis.saml_sp_connector.service.SamlService;
 
 import javax.annotation.PostConstruct;
 import javax.xml.xpath.XPathExpressionException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class SamlServiceImpl implements SamlService {
     @Override
     public Map<String, String> parseSamlResponse(byte[] samlResponseBase64) throws SamlValidationException {
         try {
-            SamlResponse samlResponse = new SamlResponse(settings, null);
+            SamlResponse samlResponse = new AzureKeyVaultValidatedSamlResponse(settings, null);
             samlResponse.loadXmlFromBase64(Base64.encodeBase64String(samlResponseBase64));
             samlResponse.setDestinationUrl(settings.getSpAssertionConsumerServiceUrl().toString());
             boolean isValid = samlResponse.isValid();
