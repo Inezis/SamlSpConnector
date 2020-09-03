@@ -2,13 +2,16 @@ package sk.inezis.saml_sp_connector.service.impl;
 
 import com.onelogin.saml2.authn.AuthnRequest;
 import com.onelogin.saml2.authn.SamlResponse;
-import com.onelogin.saml2.exception.Error;
 import com.onelogin.saml2.settings.Saml2Settings;
 import com.onelogin.saml2.settings.SettingsBuilder;
 import com.onelogin.saml2.util.Util;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import sk.inezis.saml_sp_connector.data.AzureKeyVaultValidatedSamlResponse;
@@ -20,9 +23,13 @@ import javax.xml.xpath.XPathExpressionException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @Service
 public class SamlServiceImpl implements SamlService {
+
+    @Value("${onelogin.saml.properties.location-type}")
+    private LocationType oneloginSamlPropertiesLocationType;
 
     @Value("${onelogin.saml.properties.path}")
     private String oneloginSamlPropertiesPath;
@@ -30,8 +37,20 @@ public class SamlServiceImpl implements SamlService {
     private Saml2Settings settings;
 
     @PostConstruct
-    private void initialize() throws Error {
-        settings = new SettingsBuilder().fromFile(oneloginSamlPropertiesPath).build();
+    private void initialize() throws Exception {
+        Resource resource = null;
+        if (oneloginSamlPropertiesLocationType == LocationType.FILE_SYSTEM) {
+            resource = new FileSystemResource(oneloginSamlPropertiesPath);
+        } else if (oneloginSamlPropertiesLocationType == LocationType.CLASSPATH) {
+            resource = new ClassPathResource(oneloginSamlPropertiesPath);
+        }
+
+        if (resource == null) {
+            throw new RuntimeException("Failed to load saml properties");
+        }
+
+        Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+        settings = new SettingsBuilder().fromProperties(properties).build();
     }
 
     @Override
@@ -74,5 +93,10 @@ public class SamlServiceImpl implements SamlService {
         Document samlRequestDoc = Util.loadXML(samlRequest);
         String signedSamlRequest = Util.addSign(samlRequestDoc, settings.getSPkey(), settings.getSPcert(), settings.getSignatureAlgorithm(), settings.getDigestAlgorithm());
         return signedSamlRequest;
+    }
+
+    enum LocationType {
+        CLASSPATH,
+        FILE_SYSTEM
     }
 }
