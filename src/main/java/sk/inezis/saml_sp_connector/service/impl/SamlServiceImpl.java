@@ -4,6 +4,7 @@ import com.onelogin.saml2.authn.AuthnRequest;
 import com.onelogin.saml2.authn.SamlResponse;
 import com.onelogin.saml2.settings.Saml2Settings;
 import com.onelogin.saml2.settings.SettingsBuilder;
+import com.onelogin.saml2.util.Constants;
 import com.onelogin.saml2.util.Util;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.xml.security.exceptions.XMLSecurityException;
@@ -40,6 +41,8 @@ public class SamlServiceImpl implements SamlService {
     private final KeyVaultSignCertificateLazyResolver keyVaultSignCertificateLazyResolver;
 
     private Saml2Settings settings;
+    
+    public final static String SECURITY_DIGEST_ALGORITHM = "onelogin.saml2.security.digest_algorithm";
 
     public SamlServiceImpl(KeyVaultSignCertificateLazyResolver keyVaultSignCertificateLazyResolver) {
         this.keyVaultSignCertificateLazyResolver = keyVaultSignCertificateLazyResolver;
@@ -60,6 +63,7 @@ public class SamlServiceImpl implements SamlService {
 
         Properties properties = PropertiesLoaderUtils.loadProperties(resource);
         settings = new SettingsBuilder().fromProperties(properties).build();
+        settings.setDigestAlgorithm(properties.getProperty(SECURITY_DIGEST_ALGORITHM, Constants.SHA256));
     }
 
     @Override
