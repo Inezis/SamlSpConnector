@@ -7,6 +7,7 @@ import com.onelogin.saml2.settings.SettingsBuilder;
 import com.onelogin.saml2.util.Constants;
 import com.onelogin.saml2.util.Util;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -22,6 +23,7 @@ import sk.inezis.saml_sp_connector.service.SamlService;
 
 import javax.annotation.PostConstruct;
 import javax.xml.xpath.XPathExpressionException;
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
@@ -37,6 +39,9 @@ public class SamlServiceImpl implements SamlService {
 
     @Value("${onelogin.saml.properties.path}")
     private String oneloginSamlPropertiesPath;
+
+    @Value("${security.key-vault.key.rsa.identifier}")
+    private String keyVaultKeyIdentifier;
 
     private final KeyVaultSignCertificateLazyResolver keyVaultSignCertificateLazyResolver;
 
@@ -75,13 +80,19 @@ public class SamlServiceImpl implements SamlService {
         AuthnRequest authnRequest = new AuthnRequest(settings, forceAuthn, isPassive, setNameIdPolicy, nameIdValueReq);
         String samlRequest = authnRequest.getAuthnRequestXml();
         samlRequest = signAuthnRequest(samlRequest, settings);
-        return Util.base64encoder(samlRequest).getBytes();
+        return samlRequest.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public Map<String, String> parseSamlResponse(byte[] samlResponseBase64) throws SamlValidationException {
         try {
-            SamlResponse samlResponse = new AzureKeyVaultValidatedSamlResponse(settings, null);
+            SamlResponse samlResponse;
+            if (StringUtils.isEmpty(keyVaultKeyIdentifier)) {
+                samlResponse = new SamlResponse(settings, null);
+            } else {
+                samlResponse = new AzureKeyVaultValidatedSamlResponse(settings, null);
+            }
+
             samlResponse.loadXmlFromBase64(Base64.encodeBase64String(samlResponseBase64));
             samlResponse.setDestinationUrl(settings.getSpAssertionConsumerServiceUrl().toString());
             boolean isValid = samlResponse.isValid();

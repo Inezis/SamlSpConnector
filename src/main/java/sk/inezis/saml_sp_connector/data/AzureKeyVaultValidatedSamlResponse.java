@@ -1028,9 +1028,10 @@ public class AzureKeyVaultValidatedSamlResponse extends SamlResponse {
     private Document decryptAssertion(Document dom) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, SettingsException, ValidationError {
         PrivateKey key = settings.getSPkey();
 
-        if (key == null) {
+        // use private key from Azure KeyVault
+        /*if (key == null) {
             throw new SettingsException("No private key available for decrypt, check settings", SettingsException.PRIVATE_KEY_NOT_FOUND);
-        }
+        }*/
 
         NodeList encryptedDataNodes = Util.query(dom, "/samlp:Response/saml:EncryptedAssertion/xenc:EncryptedData");
         if (encryptedDataNodes.getLength() == 0) {
