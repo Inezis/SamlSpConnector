@@ -17,15 +17,15 @@ The open source SAML SPC software is provided and supported by inezis s.r.o.
 
 ![SAML SP Connector architecture](doc/SamlSPConnector.png?raw=true)
 
- 1. The user tries to access the protected resource on the SP website
- 2. SP requests the SAML SPC to generate SAML Authentication Request by calling ***generateRequest***
+ 1. The user tries to access the protected resource on the SP website.
+ 2. SP requests the SAML SPC to generate SAML Authentication Request by calling ***generateRequest***.
  3. SAML SPC generates the SAML Authentication Request using the *onelogin java-saml library*. SAML SPC uses its private key stored in Azure KeyVault to sign a SAML Authentication Request.
- 4. SAML SPC returns a signed SAML Authentication Request (as a base64 encoded string in json)
- 5. SP sends the signed SAML Authentication Request to Identity Provider (IdP)
+ 4. SAML SPC returns a signed SAML Authentication Request (as a base64 encoded string in json).
+ 5. SP sends the signed SAML Authentication Request to Identity Provider (IdP).
  6. IdP authenticates the user and sends the signed SAML response containing encrypted SAML Assertion back to SP. The encrypted SAML Assertion contains the user identity data.
- 7. SP requests the SAML SPC to validate and parse the received SAML Response by calling ***parseResponse***
- 8. SAML SPC verifies the SAML Response Signature and decrypts the SAML Assertion using its private key stored in Azure KeyVault,
- 10. SAML SPC returns the parsed SAML Assertion attributes (output parameter format is json)
+ 7. SP requests the SAML SPC to validate and parse the received SAML Response by calling ***parseResponse***.
+ 8. SAML SPC verifies the SAML Response Signature and decrypts the SAML Assertion using its private key stored in Azure KeyVault.
+ 10. SAML SPC returns the parsed SAML Assertion attributes (output parameter format is json).
 
 ## SAML SP Connector API
 The specification of the SAML SP Connector API is available as OpenAPI here: [SAML SPC API Specification](https://generator.swagger.io/?url=https://raw.githubusercontent.com/Inezis/SamlSpConnector/master/doc/openapi.yaml)
