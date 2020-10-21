@@ -4,17 +4,18 @@
 
 ## Table of Contents
   * [Table of Contents](#table-ofcontents)
-  * [General description](#general-description)
+  * [General Description](#general-description)
   * [Architecture](#architecture)
   * [SAML SP Connector API](#saml-sp-connector-api)
   * [Github](#github)
   * [Dependencies](#dependencies)
-  * [Build and usage](#build-and-usage)
+  * [Build and Usage](#build-and-usage)
+    * [API Client Generation](#api-client-generation)
   * [Settings](#settings)
     * [Properties File](#properties-file)
     * [OneLogin's SAML Java Toolkit Properties File](#onelogins-saml-java-toolkit-properties-file)
   
-## General description
+## General Description
 SAML Service Provider Connector is an open source Java library that allows you to easily implement a Service Provider (SP) by encapsulating SAML communication with an Identity Provider (IdP).
 
 All sensitive cryptographic operations on the service provider's side are performed by SAML SPC in Azure KeyVault:
@@ -54,7 +55,7 @@ The project was tested with OpenJDK Java 14. The Java version can be changed in 
 For Java 8 the [Java Cryptography Extension (JCE)](https://en.wikipedia.org/wiki/Java_Cryptography_Extension) is required. If you don't have it, download the version of [jce-8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html), unzip it, and drop its content at *${java.home}/jre/lib/security/*. 
 
 
-## Build and usage
+## Build and Usage
 This project uses Maven. A simple build can be done with the following command:
 
 ```
@@ -74,6 +75,10 @@ Externalization of properties files can be done by standard Spring Boot means (s
 export SPRING_CONFIG_LOCATION=file:///opt/saml-sp-connector/conf/
 java -jar /opt/saml-sp-connector/saml_sp_connector-1.0.0.jar
 ```
+
+### API Client Generation
+SAML SPC contains OpenAPI 3.0 specification file. This file can be used to generate API client.
+This can be done for example via [Swagger Editor](https://editor.swagger.io/) or [OpenAPI Generator plugin](https://github.com/OpenAPITools/openapi-generator).
 
 
 ## Settings
