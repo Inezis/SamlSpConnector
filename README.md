@@ -1,6 +1,7 @@
 
 # SAML Service Provider Connector (SAML SPC)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Inezis/SamlSpConnector/blob/master/LICENSE)
+[![Travis CI](https://api.travis-ci.org/Inezis/SamlSpConnector.svg)](https://travis-ci.org/github/Inezis/SamlSpConnector)
 
 ## Table of Contents
   * [Table of Contents](#table-ofcontents)
