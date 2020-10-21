@@ -6,4 +6,4 @@ sudo: false
 
 before_install:
   - chmod +x mvnw
-script: "mvn -P travis clean package"
+script: "mvn clean package -Dspring.profiles.active=default,test,travis"
