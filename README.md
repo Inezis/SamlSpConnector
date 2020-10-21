@@ -1,6 +1,19 @@
 
 # SAML Service Provider Connector (SAML SPC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+##Table of Contents
+  * [Table of Contents](#table-ofcontents)
+  * [General description](#general-description)
+  * [Architecture](#architecture)
+  * [SAML SP Connector API](#saml-sp-connector-api)
+  * [Github](#github)
+  * [Dependencies](#dependencies)
+  * [Build and usage](#build-and-usage)
+  * [Settings](#settings)
+    * [Properties File](#properties-file)
+    * [OneLogin's SAML Java Toolkit Properties File](#onelogins-saml-java-toolkit-properties-file)
+  
 ## General description
 SAML Service Provider Connector is an open source Java library that allows you to easily implement a Service Provider (SP) by encapsulating SAML communication with an Identity Provider (IdP).
 
@@ -66,7 +79,7 @@ java -jar /opt/saml-sp-connector/saml_sp_connector-1.0.0.jar
 ## Settings
 First of all we need to configure the toolkit. The SP's info, the IdP's info, and in some cases, configuration for advanced security issues, such as signatures and encryption.
 
-#### Properties File
+### Properties File
 The settings are defined in *application.properties* file.
 Here are the  properties to be defined in the settings file:
 
@@ -90,6 +103,6 @@ security.key-vault.cert.sign.identifier=https://hsm-keys.vault.azure.net/certifi
 ```
 **Important:** You can customize the cryptographic algorithms in the configuration file specified via the property *org.apache.xml.security.resource.config* 
 
-#### OneLogin's SAML Java Toolkit Properties File
+### OneLogin's SAML Java Toolkit Properties File
 The SAML Java Toolkit settings are defined in the *onelogin.saml.properties* file, more details about these settings can be found here: https://github.com/onelogin/java-saml/#Settings
 
