@@ -33,12 +33,12 @@ The open source SAML SPC software is provided and supported by inezis s.r.o.
  1. The user tries to access the protected resource on the SP website.
  2. SP requests the SAML SPC to generate SAML Authentication Request by calling ***generateRequest***.
  3. SAML SPC generates the SAML Authentication Request using the *onelogin java-saml library*. SAML SPC uses its private key stored in Azure KeyVault to sign a SAML Authentication Request.
- 4. SAML SPC returns a signed SAML Authentication Request (as a base64 encoded string in json).
+ 4. SAML SPC returns a signed SAML Authentication Request as a base64 encoded string wrapped in ***SamlRequestGenerationResponse*** object (MIME type of response is _application/json_).
  5. SP sends the signed SAML Authentication Request to Identity Provider (IdP).
  6. IdP authenticates the user and sends the signed SAML response containing encrypted SAML Assertion back to SP. The encrypted SAML Assertion contains the user identity data.
  7. SP requests the SAML SPC to validate and parse the received SAML Response by calling ***parseResponse***.
  8. SAML SPC verifies the SAML Response Signature and decrypts the SAML Assertion using its private key stored in Azure KeyVault.
- 10. SAML SPC returns the parsed SAML Assertion attributes (mime type of response is _application/json_).
+ 10. SAML SPC returns the parsed SAML Assertion attributes (MIME type of response is _application/json_).
 
 ## SAML SP Connector API
 The specification of the SAML SP Connector API is available as OpenAPI here: [SAML SPC API Specification](https://generator.swagger.io/?url=https://raw.githubusercontent.com/Inezis/SamlSpConnector/master/doc/openapi.yaml)
