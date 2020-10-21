@@ -1,6 +1,6 @@
 
 # SAML Service Provider Connector (SAML SPC)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Inezis/SamlSpConnector/blob/master/LICENSE)
 
 ## Table of Contents
   * [Table of Contents](#table-ofcontents)
