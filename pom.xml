@@ -10,7 +10,7 @@
     </parent>
     <groupId>sk.inezis</groupId>
     <artifactId>saml_sp_connector</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>SamlSpConnector</name>
 
     <properties>
