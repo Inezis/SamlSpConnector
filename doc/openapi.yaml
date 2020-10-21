@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: ""
   version: "1.0.0"
-  title: "NemamToNaHaku"
+  title: "SAML SP Connector"
   termsOfService: ""
 paths:
   /saml/generateRequest:
