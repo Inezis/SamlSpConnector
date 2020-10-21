@@ -1,8 +1,9 @@
 language: java
-
 jdk:
   - openjdk14
 
 sudo: false
 
+before_install:
+  - chmod +x mvnw
 script: "mvn clean package"
