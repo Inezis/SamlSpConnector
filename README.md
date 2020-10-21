@@ -2,7 +2,7 @@
 # SAML Service Provider Connector (SAML SPC)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-##Table of Contents
+## Table of Contents
   * [Table of Contents](#table-ofcontents)
   * [General description](#general-description)
   * [Architecture](#architecture)
