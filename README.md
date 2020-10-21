@@ -38,7 +38,7 @@ SAML SP Connector is hosted on github:
 
 ## Dependencies
 The project was tested with OpenJDK Java 14. The Java version can be changed in pom.xml.
-For Java 8  the [Java Cryptography Extension (JCE)](https://en.wikipedia.org/wiki/Java_Cryptography_Extension) is required. If you don't have it, download the version of [jce-8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html), unzip it, and drop its content at *${java.home}/jre/lib/security/*. 
+For Java 8 the [Java Cryptography Extension (JCE)](https://en.wikipedia.org/wiki/Java_Cryptography_Extension) is required. If you don't have it, download the version of [jce-8](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html), unzip it, and drop its content at *${java.home}/jre/lib/security/*. 
 
 
 ## Build and usage
@@ -56,7 +56,7 @@ java -jar /opt/saml-sp-connector/saml_sp_connector-1.0.0.jar
 ```
 
 By default, SAML SPC connector listens on port 8080. This can be customized via _server.port_ property (see [Settings](#settings)).
-Externalization of properties files can be done via standard Spring Boot means (see [Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config)), e.g.:
+Externalization of properties files can be done by standard Spring Boot means (see [Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config)), e.g.:
 ```
 export SPRING_CONFIG_LOCATION=file:///opt/saml-sp-connector/conf/
 java -jar /opt/saml-sp-connector/saml_sp_connector-1.0.0.jar
